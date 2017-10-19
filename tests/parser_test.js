@@ -50,6 +50,7 @@ describe('Parser', () => {
     expect(result[0].column).to.equal('name')
     expect(result[0].value).to.equal('aditya')
   })
+
   it('Should be able to parse with filter __ne', () => {
      const queryString = { 
       name__ne: 'aditya'
@@ -64,6 +65,7 @@ describe('Parser', () => {
     expect(result[0].column).to.equal('name')
     expect(result[0].value).to.equal('aditya')
   })
+
   it('Should be able to parse with filter __lt', () => {
      const queryString = { 
       age__lt: 30
@@ -254,5 +256,45 @@ describe('Parser', () => {
     expect(result[0].operatorSQL).to.equal('NOT ILIKE')
     expect(result[0].column).to.equal('name')
     expect(result[0].value).to.equal('john%')
+  })
+
+  it('Should be able to parse with filter __between', () => {
+    const queryString = { 
+      date__between: '18-06-1991,31-05-1992'
+    }
+
+    const result = parser.parse(queryString)
+
+    expect(result).to.be.an('array')
+    expect(result).to.have.lengthOf(1)
+    expect(result[0].operator).to.equal('$between')
+    expect(result[0].operatorSQL).to.be.an('array')
+    expect(result[0].operatorSQL).to.have.lengthOf(2)
+    expect(result[0].operatorSQL[0]).to.equal('BETWEEN')
+    expect(result[0].operatorSQL[1]).to.equal('AND')
+    expect(result[0].column).to.equal('date')
+    expect(result[0].value).to.have.lengthOf(2)
+    expect(result[0].value[0]).to.equal('18-06-1991')
+    expect(result[0].value[1]).to.equal('31-05-1992')
+  })
+
+  it('Should be able to parse with filter __notBetween', () => {
+    const queryString = { 
+      date__notBetween: '18-06-1991,31-05-1992'
+    }
+
+    const result = parser.parse(queryString)
+
+    expect(result).to.be.an('array')
+    expect(result).to.have.lengthOf(1)
+    expect(result[0].operator).to.equal('$notBetween')
+    expect(result[0].operatorSQL).to.be.an('array')
+    expect(result[0].operatorSQL).to.have.lengthOf(2)
+    expect(result[0].operatorSQL[0]).to.equal('NOT BETWEEN')
+    expect(result[0].operatorSQL[1]).to.equal('AND')
+    expect(result[0].column).to.equal('date')
+    expect(result[0].value).to.have.lengthOf(2)
+    expect(result[0].value[0]).to.equal('18-06-1991')
+    expect(result[0].value[1]).to.equal('31-05-1992')
   })
 })

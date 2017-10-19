@@ -49,7 +49,7 @@ const OPERATORS = {
     parser: require('./filters/between')
   },
   '__notBetween': {
-    parser: require('./filters/equals')
+    parser: require('./filters/notbetween')
   }
 }
 
