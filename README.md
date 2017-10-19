@@ -27,13 +27,13 @@ so you would able to use the parsed values into another query action like filter
       #   age: {operator: '$eq', operatorSQL: '=', value: '25'}
       # }
       #
-      # password filter will not processed because not in the allowedColumn
+      # password filter will not processed because not listed in the allowedColumn
     })
 
 ## Operators
 
-  | Operator | Description | Example |
-  | `__eq` | Find column equal with value | `?name__eq=smith` |
+  |Operator|Description|Example|
+  |`__eq`|Find column equal with value|`?name__eq=smith`|
 
 ## License
 MIT
