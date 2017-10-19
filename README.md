@@ -33,7 +33,7 @@ so you would able to use the parsed values into another query action like filter
 ## Operators
 
   Operator | Description | Example
-  --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+  --- | --- | ---
   `__eq` | Find column equal with value | `?name__eq=smith`
 
 ## License
