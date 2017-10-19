@@ -2,8 +2,8 @@
 
 module.exports = value => {
   return {
-    operator: '$eq', 
-    operatorSQL: '=', 
+    operator: '$like',
+    operatorSQL: 'LIKE',
     value: value
   }
 }

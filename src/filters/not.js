@@ -2,8 +2,8 @@
 
 module.exports = value => {
   return {
-    operator: '$eq', 
-    operatorSQL: '=', 
+    operator: '$not',
+    operatorSQL: 'IS NOT',
     value: value
   }
 }

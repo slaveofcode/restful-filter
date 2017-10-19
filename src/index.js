@@ -2,68 +2,79 @@
 
 const _ = require('lodash')
 
-const operators = {
+const OPERATORS = {
   '__eq': {
     parser: require('./filters/equals')
   },
   '__ne': {
-    parser: require('./filters/equals')
+    parser: require('./filters/negate')
   },
   '__lt': {
-    parser: require('./filters/equals')
+    parser: require('./filters/lessthan')
   },
   '__gt': {
-    parser: require('./filters/equals')
+    parser: require('./filters/greaterthan')
   },
   '__lte': {
-    parser: require('./filters/equals')
+    parser: require('./filters/lessthanequals')
   },
   '__gte': {
-    parser: require('./filters/equals')
+    parser: require('./filters/greaterthanequals')
   },
   '__not': {
-    parser: require('./filters/equals')
+    parser: require('./filters/not')
   },
   '__in': {
-    parser: require('./filters/equals')
+    parser: require('./filters/in')
   },
   '__notIn': {
-    parser: require('./filters/equals')
+    parser: require('./filters/notin')
   },
   '__like': {
-    parser: require('./filters/equals')
+    parser: require('./filters/like')
   },
   '__ilike': {
-    parser: require('./filters/equals')
+    parser: require('./filters/ilike')
   },
   '__notLike': {
-    parser: require('./filters/equals')
+    parser: require('./filters/notlike')
+  },
+  '__notILike': {
+    parser: require('./filters/notilike')
   },
   '__contains': {
-    parser: require('./filters/equals')
-  },
-  '__icontains': {
-    parser: require('./filters/equals')
+    parser: require('./filters/contains')
   },
   '__between': {
-    parser: require('./filters/equals')
+    parser: require('./filters/between')
   },
   '__notBetween': {
     parser: require('./filters/equals')
   }
 }
 
-const parse = (allowedKeys = null, queryString) => {
-  // check the querystring key if contains filter suffix
-  allowedQueryString = (allowedKeys === null) 
+const parse = (queryString, allowedKeys = null) => {
+  const allowedQueryString = (allowedKeys === null) 
     ? Object.assign({}, queryString) 
     : _.pick(queryString, allowedKeys)
-  
-  // remove the filter params form queryString
-  // get the associate filter and do filter
-  // load middleware to compile and manipulate
-  // merge with unfiltered params
-  // return it
+
+  const filtered = []
+  _.entries(queryString).forEach(([key, value]) => {
+    for (const [op, processor] of _.entries(OPERATORS)) {
+      const regexStr = `([a-zA-Z0-9]+)${op}`
+      const re = new RegExp(regexStr, 'g')
+      const check = re.exec(key)
+      if (check !== null) {
+        if (allowedKeys !== null && allowedKeys.includes(check[1])) {
+          filtered.push(processor.parser(value))
+        } else if (allowedKeys === null) {
+          filtered.push(processor.parser(value))
+        }
+      }
+    }
+  })
+
+  return filtered.length > 0 ? filtered : null
 }
 
 

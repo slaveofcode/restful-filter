@@ -2,8 +2,8 @@
 
 module.exports = value => {
   return {
-    operator: '$eq', 
-    operatorSQL: '=', 
+    operator: '$gte',
+    operatorSQL: '>=',
     value: value
   }
 }
