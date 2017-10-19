@@ -1,9 +1,10 @@
 'use strict'
 
-module.exports = value => {
+module.exports = (column, value) => {
   return {
     operator: '$notILike',
     operatorSQL: 'NOT ILIKE',
-    value: value
+    column,
+    value
   }
 }

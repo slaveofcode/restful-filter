@@ -1,9 +1,10 @@
 'use strict'
 
-module.exports = value => {
+module.exports = (column, value) => {
   return {
     operator: '$in',
     operatorSQL: 'IN',
+    column,
     value: value.split(',')
   }
 }

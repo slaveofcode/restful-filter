@@ -1,9 +1,10 @@
 'use strict'
 
-module.exports = value => {
+module.exports = (column, value) => {
   return {
     operator: '$contains',
     operatorSQL: '@>',
+    column,
     value: value.split(',')
   }
 }

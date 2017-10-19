@@ -1,9 +1,10 @@
 'use strict'
 
-module.exports = value => {
+module.exports = (column, value) => {
   return {
     operator: '$eq', 
-    operatorSQL: '=', 
-    value: value
+    operatorSQL: '=',
+    column,
+    value
   }
 }

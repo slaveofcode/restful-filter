@@ -9,17 +9,17 @@ const OPERATORS = {
   '__ne': {
     parser: require('./filters/negate')
   },
-  '__lt': {
-    parser: require('./filters/lessthan')
-  },
-  '__gt': {
-    parser: require('./filters/greaterthan')
-  },
   '__lte': {
     parser: require('./filters/lessthanequals')
   },
   '__gte': {
     parser: require('./filters/greaterthanequals')
+  },
+  '__lt': {
+    parser: require('./filters/lessthan')
+  },
+  '__gt': {
+    parser: require('./filters/greaterthan')
   },
   '__not': {
     parser: require('./filters/not')
@@ -33,7 +33,7 @@ const OPERATORS = {
   '__like': {
     parser: require('./filters/like')
   },
-  '__ilike': {
+  '__iLike': {
     parser: require('./filters/ilike')
   },
   '__notLike': {
@@ -61,14 +61,15 @@ const parse = (queryString, allowedKeys = null) => {
   const filtered = []
   _.entries(queryString).forEach(([key, value]) => {
     for (const [op, processor] of _.entries(OPERATORS)) {
-      const regexStr = `([a-zA-Z0-9]+)${op}`
+      const regexStr = `^([a-zA-Z0-9]+)${op}$`
       const re = new RegExp(regexStr, 'g')
       const check = re.exec(key)
       if (check !== null) {
-        if (allowedKeys !== null && allowedKeys.includes(check[1])) {
-          filtered.push(processor.parser(value))
-        } else if (allowedKeys === null) {
-          filtered.push(processor.parser(value))
+        if ((allowedKeys !== null && allowedKeys.includes(check[1])) 
+          || allowedKeys === null) {
+          
+          filtered.push(processor.parser(check[1], value))
+
         }
       }
     }
