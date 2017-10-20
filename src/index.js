@@ -53,7 +53,7 @@ const OPERATORS = {
   }
 }
 
-const parse = (queryString, allowedKeys = null) => {
+const parse = (config, queryString, allowedKeys = null) => {
   const allowedQueryString = (allowedKeys === null) 
     ? Object.assign({}, queryString) 
     : _.pick(queryString, allowedKeys)
@@ -62,7 +62,9 @@ const parse = (queryString, allowedKeys = null) => {
   _.entries(queryString).forEach(([key, value]) => {
     for (const [op, processor] of _.entries(OPERATORS)) {
       const regexStr = `^([a-zA-Z0-9]+)${op}$`
-      const re = new RegExp(regexStr, 'g')
+      const re = (config.case_sensitive) 
+        ? new RegExp(regexStr, 'g') 
+        : new RegExp(regexStr, 'ig')
       const check = re.exec(key)
       if (check !== null) {
         if ((allowedKeys !== null && allowedKeys.includes(check[1])) 
@@ -79,6 +81,14 @@ const parse = (queryString, allowedKeys = null) => {
 }
 
 
-module.exports = {
-  parse
+module.exports = (config = {}) => {
+  const defaultConfig = {
+    case_sensitive: false
+  }
+
+  const compiledConfig = Object.assign({}, defaultConfig, config)
+
+  return {
+    parse: _.curry(parse)(compiledConfig)
+  }
 }

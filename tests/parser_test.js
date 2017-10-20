@@ -1,9 +1,10 @@
 'use strict'
 
 const chai = require('chai')
-const parser = require('../src')
+const restParser = require('../src')
 const expect = chai.expect
 
+const parser = restParser()
 
 describe('Parser', () => {
   it('Should be able to parse allowed keys', () => {
@@ -296,5 +297,30 @@ describe('Parser', () => {
     expect(result[0].value).to.have.lengthOf(2)
     expect(result[0].value[0]).to.equal('18-06-1991')
     expect(result[0].value[1]).to.equal('31-05-1992')
+  })
+
+  it('Should be able to parse with case sensitive and case insensitive filter', () => {
+    const parserCaseSensitive = restParser({ case_sensitive: true })
+    const parserCaseInsensitive = restParser()
+
+    const queryString = { 
+      fruit__ilike: 'ora',
+      name__notlike: 'james',
+      name__notilike: 'james',
+      date__notbetween: '18-06-1991,31-05-1992',
+      age__notin: '25,30'
+    }
+
+    const resultSensitive = parserCaseSensitive.parse(queryString)
+    const resultInsensitive = parserCaseInsensitive.parse(queryString)
+
+    expect(resultSensitive).to.equal(null)
+    expect(resultInsensitive).to.be.an('array')
+    expect(resultInsensitive).to.have.lengthOf(5)
+    expect(resultInsensitive[0].operator).to.equal('$iLike')
+    expect(resultInsensitive[1].operator).to.equal('$notLike')
+    expect(resultInsensitive[2].operator).to.equal('$notILike')
+    expect(resultInsensitive[3].operator).to.equal('$notBetween')
+    expect(resultInsensitive[4].operator).to.equal('$notIn')
   })
 })

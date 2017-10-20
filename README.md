@@ -15,6 +15,8 @@ so you would able to use the parsed values into another query action like filter
 
     const restfulFilter = require('restful-filter)
 
+    const filter = restfulFilter({ case_sensitive: false }) // case_sensitive is false by default
+
     # /api/users?name__ilike=aditya&age__eq=25&password__ilike=%a%
     .get('/users', (req, res, next) => {
       const queryParams = req.query
@@ -29,6 +31,12 @@ so you would able to use the parsed values into another query action like filter
       #
       # password filter will not processed because not listed in the allowedColumn
     })
+
+## Configuration
+  
+  Key | Default Value | Description
+  --- | --- | ---
+  `case_sensitive` | false | Use case sensitive on query string param
 
 ## Operators
 
