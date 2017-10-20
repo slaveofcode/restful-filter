@@ -3,6 +3,11 @@
 This library aim to convert querystring parameters into parsed json with related operators, 
 so you would able to use the parsed values into another query action like filtering by using your model.
 
+# Features
+ - Filter querystring parameters
+ - Parse pagination by using `page` and `limit` parameter
+ - Parse ordering by using `order` parameter
+
 ## Installation
 
     # via npm
