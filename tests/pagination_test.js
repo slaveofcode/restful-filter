@@ -12,42 +12,42 @@ describe('Parser Pagination', () => {
       parser.parse({
         page: 1,
         count: 40,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 0, limit: 40 });
     expect(
       parser.parse({
         page: 1,
         count: 20,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 0, limit: 20 });
     expect(
       parser.parse({
         page: 1,
         count: 30,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 0, limit: 30 });
   });
   it('Should be able to define offset and limit by default', () => {
-    expect(parser.parse({}).pagination).to.deep.equal({ offset: 0, limit: 20 });
+    expect(parser.parse({}).paginate).to.deep.equal({ offset: 0, limit: 20 });
   });
   it('Should be able to define offset and limit with dynamic page number and count', () => {
     expect(
       parser.parse({
         page: 2,
         count: 20,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 20, limit: 20 });
     expect(
       parser.parse({
         page: 5,
         count: 10,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 40, limit: 10 });
     expect(
       parser.parse({
         page: 3,
         count: 30,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 60, limit: 30 });
   });
   it('Should be able to define offset and limit with case insensitive and case sensitive', () => {
@@ -58,19 +58,19 @@ describe('Parser Pagination', () => {
       parserSensitive.parse({
         page: 2,
         count: 20,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 20, limit: 20 });
     expect(
       parserInsensitive.parse({
         Page: 5,
         Count: 10,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 40, limit: 10 });
     expect(
       parserInsensitive.parse({
         PaGE: 3,
         cOUnt: 30,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 60, limit: 30 });
   });
   it('Should be able to set maximum row count on config', () => {
@@ -79,7 +79,7 @@ describe('Parser Pagination', () => {
       parserMax.parse({
         page: 1,
         count: 1000,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 0, limit: 1000 });
   });
   it('Should be able to define offset and limit with different param name', () => {
@@ -93,14 +93,14 @@ describe('Parser Pagination', () => {
       parserDiffParams.parse({
         section: 1,
         total: 15,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 0, limit: 15 });
 
     expect(
       parserDiffParams.parse({
         Section: 2,
         Total: 45,
-      }).pagination
+      }).paginate
     ).to.deep.equal({ offset: 45, limit: 45 });
   });
 });
