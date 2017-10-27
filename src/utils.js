@@ -12,6 +12,11 @@ const lowercasedQuerystring = queryString => {
   return mappedQueryStrings;
 };
 
+const cleanWhitespaces = stringValue => {
+  return stringValue.replace(/ /g, '');
+};
+
 module.exports = {
   lowercasedQuerystring,
+  cleanWhitespaces,
 };
