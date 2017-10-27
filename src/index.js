@@ -53,11 +53,7 @@ const OPERATORS = {
   }
 }
 
-const parse = (config, queryString, allowedKeys = null) => {
-  const allowedQueryString = (allowedKeys === null) 
-    ? Object.assign({}, queryString) 
-    : _.pick(queryString, allowedKeys)
-
+const filtering = (config, queryString, allowedKeys) => {
   const filtered = []
   _.entries(queryString).forEach(([key, value]) => {
     for (const [op, processor] of _.entries(OPERATORS)) {
@@ -76,8 +72,14 @@ const parse = (config, queryString, allowedKeys = null) => {
       }
     }
   })
-
   return filtered.length > 0 ? filtered : null
+}
+
+const parse = (config, queryString, allowedKeys = null) => {
+
+  return {
+    filter: filtering(config, queryString, allowedKeys)
+  }
 }
 
 

@@ -16,11 +16,13 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString, ['name', 'age'])
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(2)
-    expect(result).to.have.deep.nested.property('0.operator', '$eq')
-    expect(result).to.have.deep.nested.property('1.operator', '$between')
-    expect(result).to.not.have.deep.nested.property('2.operator', '$eq')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(2)
+    expect(filterResult).to.have.deep.nested.property('0.operator', '$eq')
+    expect(filterResult).to.have.deep.nested.property('1.operator', '$between')
+    expect(filterResult).to.not.have.deep.nested.property('2.operator', '$eq')
   })
   
   it('Should not be able to parse unallowed keys', () => {
@@ -30,11 +32,13 @@ describe('Parser', () => {
     }
 
     const result = parser.parse(queryString, ['name'])
+    
+    const filterResult = result.filter
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].column).to.equal('name')
-    expect(result).to.not.have.deep.nested.property('1.operator')
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult).to.not.have.deep.nested.property('1.operator')
   })
 
   it('Should be able to parse with filter __eq', () => {
@@ -44,12 +48,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$eq')
-    expect(result[0].operatorSQL).to.equal('=')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('aditya')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$eq')
+    expect(filterResult[0].operatorSQL).to.equal('=')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('aditya')
   })
 
   it('Should be able to parse with filter __ne', () => {
@@ -58,13 +64,15 @@ describe('Parser', () => {
     }
 
     const result = parser.parse(queryString)
+
+    const filterResult = result.filter
     
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$ne')
-    expect(result[0].operatorSQL).to.equal('!=')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('aditya')
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$ne')
+    expect(filterResult[0].operatorSQL).to.equal('!=')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('aditya')
   })
 
   it('Should be able to parse with filter __lt', () => {
@@ -73,13 +81,15 @@ describe('Parser', () => {
     }
 
     const result = parser.parse(queryString)
+
+    const filterResult = result.filter
     
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$lt')
-    expect(result[0].operatorSQL).to.equal('<')
-    expect(result[0].column).to.equal('age')
-    expect(result[0].value).to.equal(30)
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$lt')
+    expect(filterResult[0].operatorSQL).to.equal('<')
+    expect(filterResult[0].column).to.equal('age')
+    expect(filterResult[0].value).to.equal(30)
   })
 
   it('Should be able to parse with filter __gt', () => {
@@ -88,13 +98,15 @@ describe('Parser', () => {
     }
 
     const result = parser.parse(queryString)
+
+    const filterResult = result.filter
     
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$gt')
-    expect(result[0].operatorSQL).to.equal('>')
-    expect(result[0].column).to.equal('age')
-    expect(result[0].value).to.equal(20)
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$gt')
+    expect(filterResult[0].operatorSQL).to.equal('>')
+    expect(filterResult[0].column).to.equal('age')
+    expect(filterResult[0].value).to.equal(20)
   })
 
   it('Should be able to parse with filter __lte', () => {
@@ -104,12 +116,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$lte')
-    expect(result[0].operatorSQL).to.equal('<=')
-    expect(result[0].column).to.equal('age')
-    expect(result[0].value).to.equal(25)
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$lte')
+    expect(filterResult[0].operatorSQL).to.equal('<=')
+    expect(filterResult[0].column).to.equal('age')
+    expect(filterResult[0].value).to.equal(25)
   })
 
   it('Should be able to parse with filter __gte', () => {
@@ -119,12 +133,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$gte')
-    expect(result[0].operatorSQL).to.equal('>=')
-    expect(result[0].column).to.equal('age')
-    expect(result[0].value).to.equal(25)
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$gte')
+    expect(filterResult[0].operatorSQL).to.equal('>=')
+    expect(filterResult[0].column).to.equal('age')
+    expect(filterResult[0].value).to.equal(25)
   })
 
   it('Should be able to parse with filter __not', () => {
@@ -134,12 +150,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$not')
-    expect(result[0].operatorSQL).to.equal('IS NOT')
-    expect(result[0].column).to.equal('shutdown')
-    expect(result[0].value).to.equal(true)
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$not')
+    expect(filterResult[0].operatorSQL).to.equal('IS NOT')
+    expect(filterResult[0].column).to.equal('shutdown')
+    expect(filterResult[0].value).to.equal(true)
   })
 
   it('Should be able to parse with filter __in', () => {
@@ -149,16 +167,18 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$in')
-    expect(result[0].operatorSQL).to.equal('IN')
-    expect(result[0].column).to.equal('fruits')
-    expect(result[0].value).to.be.an('array')
-    expect(result[0].value).to.have.lengthOf(3)
-    expect(result[0].value[0]).to.equal('grape')
-    expect(result[0].value[1]).to.equal('apple')
-    expect(result[0].value[2]).to.equal('orange')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$in')
+    expect(filterResult[0].operatorSQL).to.equal('IN')
+    expect(filterResult[0].column).to.equal('fruits')
+    expect(filterResult[0].value).to.be.an('array')
+    expect(filterResult[0].value).to.have.lengthOf(3)
+    expect(filterResult[0].value[0]).to.equal('grape')
+    expect(filterResult[0].value[1]).to.equal('apple')
+    expect(filterResult[0].value[2]).to.equal('orange')
   })
 
   it('Should be able to parse with filter __notIn', () => {
@@ -168,16 +188,18 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$notIn')
-    expect(result[0].operatorSQL).to.equal('NOT IN')
-    expect(result[0].column).to.equal('fruits')
-    expect(result[0].value).to.be.an('array')
-    expect(result[0].value).to.have.lengthOf(3)
-    expect(result[0].value[0]).to.equal('grape')
-    expect(result[0].value[1]).to.equal('apple')
-    expect(result[0].value[2]).to.equal('orange')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$notIn')
+    expect(filterResult[0].operatorSQL).to.equal('NOT IN')
+    expect(filterResult[0].column).to.equal('fruits')
+    expect(filterResult[0].value).to.be.an('array')
+    expect(filterResult[0].value).to.have.lengthOf(3)
+    expect(filterResult[0].value[0]).to.equal('grape')
+    expect(filterResult[0].value[1]).to.equal('apple')
+    expect(filterResult[0].value[2]).to.equal('orange')
   })
 
   it('Should be able to parse with filter __contains', () => {
@@ -187,16 +209,18 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$contains')
-    expect(result[0].operatorSQL).to.equal('@>')
-    expect(result[0].column).to.equal('fruits')
-    expect(result[0].value).to.be.an('array')
-    expect(result[0].value).to.have.lengthOf(3)
-    expect(result[0].value[0]).to.equal('grape')
-    expect(result[0].value[1]).to.equal('apple')
-    expect(result[0].value[2]).to.equal('orange')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$contains')
+    expect(filterResult[0].operatorSQL).to.equal('@>')
+    expect(filterResult[0].column).to.equal('fruits')
+    expect(filterResult[0].value).to.be.an('array')
+    expect(filterResult[0].value).to.have.lengthOf(3)
+    expect(filterResult[0].value[0]).to.equal('grape')
+    expect(filterResult[0].value[1]).to.equal('apple')
+    expect(filterResult[0].value[2]).to.equal('orange')
   })
 
   it('Should be able to parse with filter __like', () => {
@@ -206,12 +230,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$like')
-    expect(result[0].operatorSQL).to.equal('LIKE')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('john%')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$like')
+    expect(filterResult[0].operatorSQL).to.equal('LIKE')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('john%')
   })
 
   it('Should be able to parse with filter __ilike', () => {
@@ -221,12 +247,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$iLike')
-    expect(result[0].operatorSQL).to.equal('ILIKE')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('john%')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$iLike')
+    expect(filterResult[0].operatorSQL).to.equal('ILIKE')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('john%')
   })
 
   it('Should be able to parse with filter __notLike', () => {
@@ -236,12 +264,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$notLike')
-    expect(result[0].operatorSQL).to.equal('NOT LIKE')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('john%')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$notLike')
+    expect(filterResult[0].operatorSQL).to.equal('NOT LIKE')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('john%')
   })
   
   it('Should be able to parse with filter __notILike', () => {
@@ -251,12 +281,14 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$notILike')
-    expect(result[0].operatorSQL).to.equal('NOT ILIKE')
-    expect(result[0].column).to.equal('name')
-    expect(result[0].value).to.equal('john%')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$notILike')
+    expect(filterResult[0].operatorSQL).to.equal('NOT ILIKE')
+    expect(filterResult[0].column).to.equal('name')
+    expect(filterResult[0].value).to.equal('john%')
   })
 
   it('Should be able to parse with filter __between', () => {
@@ -266,17 +298,19 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$between')
-    expect(result[0].operatorSQL).to.be.an('array')
-    expect(result[0].operatorSQL).to.have.lengthOf(2)
-    expect(result[0].operatorSQL[0]).to.equal('BETWEEN')
-    expect(result[0].operatorSQL[1]).to.equal('AND')
-    expect(result[0].column).to.equal('date')
-    expect(result[0].value).to.have.lengthOf(2)
-    expect(result[0].value[0]).to.equal('18-06-1991')
-    expect(result[0].value[1]).to.equal('31-05-1992')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$between')
+    expect(filterResult[0].operatorSQL).to.be.an('array')
+    expect(filterResult[0].operatorSQL).to.have.lengthOf(2)
+    expect(filterResult[0].operatorSQL[0]).to.equal('BETWEEN')
+    expect(filterResult[0].operatorSQL[1]).to.equal('AND')
+    expect(filterResult[0].column).to.equal('date')
+    expect(filterResult[0].value).to.have.lengthOf(2)
+    expect(filterResult[0].value[0]).to.equal('18-06-1991')
+    expect(filterResult[0].value[1]).to.equal('31-05-1992')
   })
 
   it('Should be able to parse with filter __notBetween', () => {
@@ -286,17 +320,19 @@ describe('Parser', () => {
 
     const result = parser.parse(queryString)
 
-    expect(result).to.be.an('array')
-    expect(result).to.have.lengthOf(1)
-    expect(result[0].operator).to.equal('$notBetween')
-    expect(result[0].operatorSQL).to.be.an('array')
-    expect(result[0].operatorSQL).to.have.lengthOf(2)
-    expect(result[0].operatorSQL[0]).to.equal('NOT BETWEEN')
-    expect(result[0].operatorSQL[1]).to.equal('AND')
-    expect(result[0].column).to.equal('date')
-    expect(result[0].value).to.have.lengthOf(2)
-    expect(result[0].value[0]).to.equal('18-06-1991')
-    expect(result[0].value[1]).to.equal('31-05-1992')
+    const filterResult = result.filter
+
+    expect(filterResult).to.be.an('array')
+    expect(filterResult).to.have.lengthOf(1)
+    expect(filterResult[0].operator).to.equal('$notBetween')
+    expect(filterResult[0].operatorSQL).to.be.an('array')
+    expect(filterResult[0].operatorSQL).to.have.lengthOf(2)
+    expect(filterResult[0].operatorSQL[0]).to.equal('NOT BETWEEN')
+    expect(filterResult[0].operatorSQL[1]).to.equal('AND')
+    expect(filterResult[0].column).to.equal('date')
+    expect(filterResult[0].value).to.have.lengthOf(2)
+    expect(filterResult[0].value[0]).to.equal('18-06-1991')
+    expect(filterResult[0].value[1]).to.equal('31-05-1992')
   })
 
   it('Should be able to parse with case sensitive and case insensitive filter', () => {
@@ -313,14 +349,17 @@ describe('Parser', () => {
 
     const resultSensitive = parserCaseSensitive.parse(queryString)
     const resultInsensitive = parserCaseInsensitive.parse(queryString)
+    
+    const filterResultSensitive = resultSensitive.filter
+    const filterResultInsensitive = resultInsensitive.filter
 
-    expect(resultSensitive).to.equal(null)
-    expect(resultInsensitive).to.be.an('array')
-    expect(resultInsensitive).to.have.lengthOf(5)
-    expect(resultInsensitive[0].operator).to.equal('$iLike')
-    expect(resultInsensitive[1].operator).to.equal('$notLike')
-    expect(resultInsensitive[2].operator).to.equal('$notILike')
-    expect(resultInsensitive[3].operator).to.equal('$notBetween')
-    expect(resultInsensitive[4].operator).to.equal('$notIn')
+    expect(filterResultSensitive).to.equal(null)
+    expect(filterResultInsensitive).to.be.an('array')
+    expect(filterResultInsensitive).to.have.lengthOf(5)
+    expect(filterResultInsensitive[0].operator).to.equal('$iLike')
+    expect(filterResultInsensitive[1].operator).to.equal('$notLike')
+    expect(filterResultInsensitive[2].operator).to.equal('$notILike')
+    expect(filterResultInsensitive[3].operator).to.equal('$notBetween')
+    expect(filterResultInsensitive[4].operator).to.equal('$notIn')
   })
 })
