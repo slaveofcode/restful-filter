@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const _ = require('lodash');
-const utils = require('./utils');
+const _ = require("lodash");
+const utils = require("./utils");
 
 const paginate = (config, queryString) => {
   const mappedQueryStrings = !config.case_sensitive
@@ -9,24 +9,24 @@ const paginate = (config, queryString) => {
     : queryString;
 
   const pageName = !config.case_sensitive
-    ? config.pageParamName.toLowerCase()
-    : config.pageParamName;
+    ? config.page_param_name.toLowerCase()
+    : config.page_param_name;
   const limit = !config.case_sensitive
-    ? config.limitParamName.toLowerCase()
-    : config.limitParamName;
+    ? config.limit_param_name.toLowerCase()
+    : config.limit_param_name;
 
   const pageNumber = _.parseInt(_.get(mappedQueryStrings, pageName, 1));
-  const limitNumber = _.get(mappedQueryStrings, limit, config.perPage);
+  const limitNumber = _.get(mappedQueryStrings, limit, config.per_page);
 
-  if (_.parseInt(limitNumber) > _.parseInt(config.maxCountPerPage)) {
-    limitNumber = _.parseInt(config.maxCountPerPage);
+  if (_.parseInt(limitNumber) > _.parseInt(config.max_count_per_page)) {
+    limitNumber = _.parseInt(config.max_count_per_page);
   }
 
   const offsetNumber = pageNumber === 1 ? 0 : (pageNumber - 1) * limitNumber;
 
   return {
     offset: offsetNumber,
-    limit: limitNumber,
+    limit: limitNumber
   };
 };
 

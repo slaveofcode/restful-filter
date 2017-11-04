@@ -9,8 +9,8 @@ const defineOrder = (config, queryString, allowedKeys) => {
     : queryString;
 
   const orderName = !config.case_sensitive
-    ? config.orderParamName.toLowerCase()
-    : config.orderParamName;
+    ? config.order_param_name.toLowerCase()
+    : config.order_param_name;
 
   const orderValue = mappedQueryStrings[orderName];
   if (orderValue) {
