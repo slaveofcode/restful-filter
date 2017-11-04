@@ -1,6 +1,6 @@
 {
   "name": "restful-filter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description":
     "Simple library to parse restful filter based on http querystring",
   "main": "src/index.js",
