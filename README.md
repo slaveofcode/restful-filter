@@ -21,15 +21,15 @@ so you would able to use the parsed values into another query action like filter
     const restfulFilter = require('restful-filter)
 
     const filter = restfulFilter({ 
-        case_sensitive: false // false by default, this just example
-    }) 
+        case_sensitive: false // false by default, this is just example
+    })
 
     # FILTER
     # /api/users?name__ilike=aditya&age__eq=25&password__ilike=%a%
     .get('/users', (req, res, next) => {
       const queryParams = req.query
       const allowedColumn = ['name', 'age']
-      const searchParams = restfulFilter.parse(queryParams, allowedColumn).filter
+      const searchParams = filter.parse(queryParams, allowedColumn).filter
 
       # now searchParams contains
       # {
@@ -44,7 +44,7 @@ so you would able to use the parsed values into another query action like filter
     # /api/users?page=2
     .get('/users', (req, res, next) => {
         const queryParams = req.query
-        const paginationParams = restfulFilter.parser(queryParams).paginate
+        const paginationParams = filter.parse(queryParams).paginate
 
         # paginationParams contains
         # {
@@ -57,7 +57,7 @@ so you would able to use the parsed values into another query action like filter
     # api/users?order_by=-id,name
     .get('/users', (req, res, next) => {
         const queryParams = req.query
-        const orderParams = restfulFilter.parser(queryParams).order
+        const orderParams = filter.parse(queryParams).order
 
         # orderParams contains
         # [
@@ -68,7 +68,7 @@ so you would able to use the parsed values into another query action like filter
         # You even can limit the order column value by using second parameter as allowedColumn to process
         # Like 
         
-        const orderParams = restfulFilter.parser(queryParams, ['id']).order
+        const orderParams = filter.parse(queryParams, ['id']).order
 
         # Would return
         # [
