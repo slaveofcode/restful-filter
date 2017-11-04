@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 module.exports = (column, value) => {
   return {
     operator: '$contains',
     operatorSQL: '@>',
     column,
-    value: value.split(',')
-  }
-}
+    value: value.replace(/ /g, '').split(','),
+  };
+};
