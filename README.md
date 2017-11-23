@@ -18,7 +18,7 @@ so you would able to use the parsed values into another query action like filter
 
 ## Usage
 
-    const restfulFilter = require('restful-filter)
+    const restfulFilter = require('restful-filter')
 
     const filter = restfulFilter({ 
         case_sensitive: false // false by default, this is just example
