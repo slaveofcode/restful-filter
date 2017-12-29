@@ -25,8 +25,8 @@ const paginate = (config, queryString) => {
   const offsetNumber = pageNumber === 1 ? 0 : (pageNumber - 1) * limitNumber;
 
   return {
-    offset: offsetNumber,
-    limit: limitNumber
+    offset: parseInt(offsetNumber),
+    limit: parseInt(limitNumber)
   };
 };
 
