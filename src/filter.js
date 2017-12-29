@@ -1,66 +1,66 @@
-'use strict';
+"use strict";
 
-const _ = require('lodash');
+const _ = require("lodash");
 
 const OPERATORS = {
   __eq: {
-    parser: require('./filters/equals'),
+    parser: require("./filters/equals")
   },
   __ne: {
-    parser: require('./filters/negate'),
+    parser: require("./filters/negate")
   },
   __lte: {
-    parser: require('./filters/lessthanequals'),
+    parser: require("./filters/lessthanequals")
   },
   __gte: {
-    parser: require('./filters/greaterthanequals'),
+    parser: require("./filters/greaterthanequals")
   },
   __lt: {
-    parser: require('./filters/lessthan'),
+    parser: require("./filters/lessthan")
   },
   __gt: {
-    parser: require('./filters/greaterthan'),
+    parser: require("./filters/greaterthan")
   },
   __not: {
-    parser: require('./filters/not'),
+    parser: require("./filters/not")
   },
   __in: {
-    parser: require('./filters/in'),
+    parser: require("./filters/in")
   },
   __notIn: {
-    parser: require('./filters/notin'),
+    parser: require("./filters/notin")
   },
   __like: {
-    parser: require('./filters/like'),
+    parser: require("./filters/like")
   },
   __iLike: {
-    parser: require('./filters/ilike'),
+    parser: require("./filters/ilike")
   },
   __notLike: {
-    parser: require('./filters/notlike'),
+    parser: require("./filters/notlike")
   },
   __notILike: {
-    parser: require('./filters/notilike'),
+    parser: require("./filters/notilike")
   },
   __contains: {
-    parser: require('./filters/contains'),
+    parser: require("./filters/contains")
   },
   __between: {
-    parser: require('./filters/between'),
+    parser: require("./filters/between")
   },
   __notBetween: {
-    parser: require('./filters/notbetween'),
-  },
+    parser: require("./filters/notbetween")
+  }
 };
 
 const filtering = (config, queryString, allowedKeys) => {
   const filtered = [];
   _.entries(queryString).forEach(([key, value]) => {
     for (const [op, processor] of _.entries(OPERATORS)) {
-      const regexStr = `^([a-zA-Z0-9]+)${op}$`;
+      const regexStr = `^([a-zA-Z0-9_]+)${op}$`;
       const re = config.case_sensitive
-        ? new RegExp(regexStr, 'g')
-        : new RegExp(regexStr, 'ig');
+        ? new RegExp(regexStr, "g")
+        : new RegExp(regexStr, "ig");
       const check = re.exec(key);
       if (check !== null) {
         if (
