@@ -16,7 +16,7 @@ const paginate = (config, queryString) => {
     : config.limit_param_name;
 
   const pageNumber = _.parseInt(_.get(mappedQueryStrings, pageName, 1));
-  const limitNumber = _.get(mappedQueryStrings, limit, config.per_page);
+  let limitNumber = _.get(mappedQueryStrings, limit, config.per_page);
 
   if (_.parseInt(limitNumber) > _.parseInt(config.max_count_per_page)) {
     limitNumber = _.parseInt(config.max_count_per_page);
